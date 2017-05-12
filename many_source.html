@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<!-- Double SourceのHTML -->
+<html lang="ja-JP">
+<head>
+  <meta charset="UTF-8">
+  <title>distribution from many sound sources</title>
+  <style>
+  body {
+    background-color: #ffffff;
+  }
+  .myCanvas {
+    background-color: #ffffff;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+  #area1 {
+    float: left;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    width: 270px;
+  }
+  #area2 {
+    float: relative;
+    position: relative;
+    top: 0px;
+    left: 285px;
+    width: 450px;
+    height: 450px;
+  }
+  #views {
+    position: relative;
+    width: 450px;
+    height: 450px;
+  }
+  .left {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    float: left;
+  }
+  .clear {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    clear: both;
+  }
+  #dis {
+    margin-top: 0px;
+  }
+  #con {
+    margin-top: 0px;
+  }
+
+  </style>
+  <script src="jslib/vbtimer.js"></script>
+  <script src="jslib/vcanvas.js"></script>
+  <script src="many_source.js"></script>
+</head>
+<body>
+  <div id="area1">
+
+    <img src="picture2.png" alt="Pulpit rock" width="270" height="105" >
+
+    <form name="distance">
+      <div id="dis">
+        <input type="range" value="4" id="t" step="1" min="1" max="10" class="left">
+        <p class="left">d =</p>
+        <p id="distance" class="left">4</p>
+        <p class="clear"></p>
+      </div>
+
+      <div id="con">
+        <input type="range" min="4" value="6" max="10" step="1" id="i" class="left">
+        <p class="left">k =</p>
+        <p id="constant" class="left">6</p>
+        <p class="clear"></p>
+      </div>
+    </form>
+
+    <img src="picture1.png" alt="Pulpit rock" width="270" height="225" >
+    <button type="button" id="start">start</button>
+    <button type="button" id="stop">stop</button>
+  </div>
+
+  <div id="area2">
+    <div id="views">
+      <canvas class="myCanvas" id="graph0" width="450" height="450"></canvas>
+    </div>
+  </div>
+</body>
+</html>
