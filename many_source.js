@@ -26,6 +26,7 @@ class manysource {
     var pixelData = imageData.data;
 
     var d = 0;
+    var th = 2.0 * Math.PI / 8.6 * 10. / 180. * Math.PI
     var fy = 2.0 * Math.PI / 8;
     var r = new Array( this.number );
     var x = new Array( this.number );
@@ -34,12 +35,26 @@ class manysource {
       x[i] = -this.number / 2 * this.distance + this.distance / 2 + i * this.distance;
     }
 
+    var dy = 0;
     for( var k=-3; k<9; k+=0.026666666666 ) {
       var dx = 0;
       for( var j=-8; j<=4; j+=0.02666666666 ) {
-        //var r
+        var amp = 0;
+        for( var n=0; n<r.length; n++ ) {
+          var ra = Math.sqrt( k * k + (j - x[n]) * (j - x[n]));
+          amp += Math.sin( Math.PI * 2.0 / th * ra - Math.PI * 2.0 / 360 * theta ) / ( 1 + ra / 10.0 );
+        }
+        var cw = Math.floor( 127 + 126 * amp / r.length );
+        if( cw<0 || 255<cw ) console.log( "？？？" );
+        pixelData[ dy * 450 * 4 + dx * 4 + 0 ] = 0;	//R
+        pixelData[ dy * 450 * 4 + dx * 4 + 1 ] = cw;	//G
+        pixelData[ dy * 450 * 4 + dx * 4 + 2 ] = cw;	//B
+        pixelData[ dy * 450 * 4 + dx * 4 + 3 ] = 255;	//a
+        dx++;
       }
+      dy++;
     }
+    this.ctx.putImageData( imageData, 0, 0 );
   }
 }
 
