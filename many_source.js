@@ -1,4 +1,4 @@
-class manysource {
+  class manysource {
   constructor( canvas, base, freq, distance, delay, number ) {
     this.canvas = canvas;
     this.ctx = canvas.getContext( "2d" );
@@ -10,9 +10,13 @@ class manysource {
     this.number = number;
 
     this.timer1 = new vbTimer();
-    this.timer1.interval = 100;
-    this.timer1.timer = () => {
+    this.timer1.interval = 500;
 
+    var tt = 0;
+    this.timer1.timer = () => {
+      this.calc( tt );
+      tt+=45;
+      console.log( tt );
     }
   }
 
@@ -22,6 +26,9 @@ class manysource {
    *
    */
   calc( theta ) {
+    this.ctx.beginPath();
+    this.ctx.clearRect(0,0,450,450);
+    this.ctx.stroke();
     var imageData = this.ctx.createImageData( 450, 450 );
     var pixelData = imageData.data;
 
@@ -55,11 +62,13 @@ class manysource {
       dy++;
     }
     this.ctx.putImageData( imageData, 0, 0 );
+    console.log( theta );
   }
 }
 
 window.addEventListener( 'load', function() {
-
+  var a = new manysource( document.getElementById('graph0'), 0, 0, 8.6, 0, 6 );
+  a.timer1.enable();
 });
 
 /*
