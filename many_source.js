@@ -10,7 +10,7 @@
     this.number = number;
 
     this.timer1 = new vbTimer();
-    this.timer1.interval = 500;
+    this.timer1.interval = 200;
 
     var tt = 0;
     this.timer1.timer = () => {
@@ -39,7 +39,7 @@
     var x = new Array( this.number );
 
     for( var i=0; i<this.number; i++ ) {
-      x[i] = -this.number / 2 * this.distance + this.distance / 2 + i * this.distance;
+      x[i] = ( -this.number / 2 * this.distance + this.distance / 2 + i * this.distance ) / 80.0;;
     }
 
     var dy = 0;
@@ -67,7 +67,7 @@
 }
 
 window.addEventListener( 'load', function() {
-  var a = new manysource( document.getElementById('graph0'), 0, 0, 8.6, 0, 6 );
+  var a = new manysource( document.getElementById('graph0'), 0, 0, 8.6, 0, 8 );
   a.timer1.enable();
 });
 
