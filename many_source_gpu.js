@@ -44,14 +44,21 @@ function calc() {
     "const float lambda = 8.6;",
     "const float c_size = 512.0;",
     "const float w_number = 16.0;",
+    "const float s_number = 8.0;",
+    "const float interval = 16.0;",
 
     "const float k = 2.0 * PI / lambda;",
     "const float m_size = ( lambda * w_number ) / c_size;",
-
-    "float px = c_size / 2.0 - gl_FragCoord.x;",
+    "float sx = -interval * s_number/2.0 + interval/2.0;",
+    "float amp = 0.0;",
+    "for( int n=0; n<int(s_number); n++ ) {",
+    "float px = c_size / 2.0 - gl_FragCoord.x - sx;",
     "float py = c_size / 2.0 - gl_FragCoord.y;",
     "float r = sqrt( ( px * m_size * px * m_size ) + ( py * m_size * py * m_size ) );",
-    "float amp = sin( -k * r + PI * 2.0 / 360.0 * theta );",
+    "amp += sin( -k * r + PI * 2.0 / 360.0 * theta );",
+    "sx += interval;",
+    "}",
+    "amp /= 8.0;",
     "gl_FragColor = vec4( 0, (amp+1.0)/2.0, (amp+1.0)/2.0, 1.0 );",
     "}"
   ].join("\n");
