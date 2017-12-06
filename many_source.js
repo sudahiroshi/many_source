@@ -1,78 +1,48 @@
-  class manysource {
-  constructor( canvas, base, freq, distance, delay, number ) {
-    this.canvas = canvas;
-    this.ctx = canvas.getContext( "2d" );
+let theta = 0;
 
-    this.base = base;
-    this.freq = freq;
-    this.distance = distance;
-    this.delay = delay;
-    this.number = number;
+function calc() {
+  let canvas = document.getElementById('graph0');
+  let ctx = canvas.getContext( "2d" );
 
-    this.timer1 = new vbTimer();
-    this.timer1.interval = 200;
+  let lambda = 8.6; // 波長は8.6mm （音で言えば40kHz）
+  let c_size = 512; // canvasのサイズ（単位：ピクセル）
+  let w_number = 16; // フィールド内の波の数
+  let s_number = 8; // 音源は8つ
+  let interval = 16; // 音源間隔（単位：ピクセル）
 
-    var tt = 0;
-    this.timer1.timer = () => {
-      this.calc( tt );
-      tt+=45;
-      console.log( tt );
-    }
-  }
+  ctx.clearRect( 0, 0, 512, 512);
 
-  /**
-   * calc
-   * 音場を計算するメソッド
-   *
-   */
-  calc( theta ) {
-    this.ctx.beginPath();
-    this.ctx.clearRect(0,0,450,450);
-    this.ctx.stroke();
-    var imageData = this.ctx.createImageData( 450, 450 );
-    var pixelData = imageData.data;
+  let imageData = ctx.createImageData( 512, 512 );
+  let pixelData = imageData.data;
 
-    var d = 0;
-    var th = 2.0 * Math.PI / 8.6 * 10. / 180. * Math.PI
-    var fy = 2.0 * Math.PI / 8;
-    var r = new Array( this.number );
-    var x = new Array( this.number );
+  let k = 2.0 * Math.PI / lambda;
+  let m_size = ( lambda * w_number ) / c_size;
 
-    for( var i=0; i<this.number; i++ ) {
-      x[i] = ( -this.number / 2 * this.distance + this.distance / 2 + i * this.distance ) / 80.0;;
-    }
-
-    var dy = 0;
-    for( var k=-3; k<9; k+=0.026666666666 ) {
-      var dx = 0;
-      for( var j=-8; j<=4; j+=0.02666666666 ) {
-        var amp = 0;
-        for( var n=0; n<r.length; n++ ) {
-          var ra = Math.sqrt( k * k + (j - x[n]) * (j - x[n]));
-          amp += Math.sin( Math.PI * 2.0 / th * ra - Math.PI * 2.0 / 360 * theta ) / ( 1 + ra / 10.0 );
-        }
-        var cw = Math.floor( 127 + 126 * amp / r.length );
-        if( cw<0 || 255<cw ) console.log( "？？？" );
-        pixelData[ dy * 450 * 4 + dx * 4 + 0 ] = 0;	//R
-        pixelData[ dy * 450 * 4 + dx * 4 + 1 ] = cw;	//G
-        pixelData[ dy * 450 * 4 + dx * 4 + 2 ] = cw;	//B
-        pixelData[ dy * 450 * 4 + dx * 4 + 3 ] = 255;	//a
-        dx++;
+  for( let y=0; y<c_size; y++ ) {
+    for( let x=0; x<c_size; x++ ) {
+      let sx = -interval * s_number/2.0 + interval/2.0;
+      let amp = 0;
+      for( let n=0; n<s_number; n++ ) {
+        let px = c_size / 2.0 - x - sx;
+        let py = c_size / 2.0 - y;
+        let r = Math.sqrt( ( px * m_size * px * m_size ) + ( py * m_size * py * m_size ) );
+        amp += Math.sin( - k * r + Math.PI * 2.0 / 360.0 * theta );
+        sx += interval;
       }
-      dy++;
+      let wh = Math.floor( 127 + 126.0 * amp / s_number );
+      if( wh<0 || 255<wh ) console.log( "？？？" );
+      pixelData[ y * c_size * 4 + x * 4 + 0 ] = 0;	//R
+      pixelData[ y * c_size * 4 + x * 4 + 1 ] = wh;	//G
+      pixelData[ y * c_size * 4 + x * 4 + 2 ] = wh;	//B
+      pixelData[ y * c_size * 4 + x * 4 + 3 ] = 255;	//a
     }
-    this.ctx.putImageData( imageData, 0, 0 );
-    console.log( theta );
   }
+  ctx.putImageData( imageData, 0, 0 );
+
+  theta += 4.5; // 1フレームで位相を4.5°進める
+  requestAnimationFrame( calc );
 }
 
 window.addEventListener( 'load', function() {
-  var a = new manysource( document.getElementById('graph0'), 0, 0, 8.6, 0, 8 );
-  a.timer1.enable();
+  calc();
 });
-
-/*
-とりあえずの試し方
-var a = new manysource( document.getElementById('graph0'), 0, 0, 8.6, 0, 6 );
-a.calc(0);
-*/

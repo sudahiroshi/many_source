@@ -1,44 +1,11 @@
 <!DOCTYPE HTML>
-<!-- Double SourceのHTML -->
 <html lang="ja-JP">
 <head>
   <meta charset="UTF-8">
-  <title>distribution from many sound sources</title>
-  <link rel="stylesheet" href="many_source.css">
-  <script src="jslib/vbtimer.js"></script>
-  <script src="jslib/vcanvas.js"></script>
+  <title>1次元の音波</title>
   <script src="many_source.js"></script>
 </head>
 <body>
-  <div id="area1">
-
-    <img src="picture2.png" alt="Pulpit rock" width="270" height="105" >
-
-    <form name="distance">
-      <div id="dis">
-        <input type="range" value="4" id="t" step="1" min="1" max="10" class="left">
-        <p class="left">d =</p>
-        <p id="distance" class="left">4</p>
-        <p class="clear"></p>
-      </div>
-
-      <div id="con">
-        <input type="range" min="4" value="6" max="10" step="1" id="i" class="left">
-        <p class="left">k =</p>
-        <p id="constant" class="left">6</p>
-        <p class="clear"></p>
-      </div>
-    </form>
-
-    <img src="picture1.png" alt="Pulpit rock" width="270" height="225" >
-    <button type="button" id="start">start</button>
-    <button type="button" id="stop">stop</button>
-  </div>
-
-  <div id="area2">
-    <div id="views">
-      <canvas class="myCanvas" id="graph0" width="450" height="450"></canvas>
-    </div>
-  </div>
+  <canvas class="myCanvas" id="graph0" width="512" height="512"></canvas>
 </body>
 </html>

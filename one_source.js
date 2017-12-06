@@ -1,4 +1,5 @@
 let theta = 0;
+
 function calc() {
   let canvas = document.getElementById('graph0');
   let ctx = canvas.getContext( "2d" );
@@ -13,10 +14,10 @@ function calc() {
   let pixelData = imageData.data;
 
   let k = 2.0 * Math.PI / lambda;
+  let m_size = ( lambda * w_number ) / c_size; // 1ピクセルのサイズ
 
-  for( var y=0; y<c_size; y++ ) {
-    for( var x=0; x<c_size; x++ ) {
-      let m_size = ( lambda * w_number ) / c_size;
+  for( let y=0; y<c_size; y++ ) {
+    for( let x=0; x<c_size; x++ ) {
       let px = c_size / 2.0 - x;
       let py = c_size / 2.0 - y;
       let r = Math.sqrt( ( px * m_size * px * m_size ) + ( py * m_size * py * m_size ) );
