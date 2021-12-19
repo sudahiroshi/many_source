@@ -8,14 +8,14 @@ many_source
 gitのsubmodule機能を利用しています．
 リポジトリをcloneする際には以下のいずれかのようにして，ライブラリのリポジトリを取得してください．
 
-```
-$ git clone --recursive http://git.mesh.cx/gitbucket/git/suda/many_source.git
+```bash
+$ git clone --recursive https://github.com/sudahiroshi/many_source.git
 ```
 
 または
 
-```
-$ git clone http://git.mesh.cx/gitbucket/git/suda/many_source.git
+```bash
+$ git clone https://github.com/sudahiroshi/many_source.git
 $ cd many_source
 $ git submodule init
 $ git submodule update
